@@ -1,0 +1,16 @@
+#summary The various milestones in development of this tool.
+
+= Introduction =
+
+This tool will be developed incrementally, with more complex features implemented lastly.
+
+= Milestones =
+
+ *  Flash detection research (+ associated optimization).
+ *  Building skeleton of Chrome plugin -- ability to stream screen captures into a JavaScript accessible array of images.
+ *  Begin initial flash detection algorithm implementation (luminosity and then red flash) with HTML5's canvas + pixel manipulation.
+ *  Research flash mitigation algorithms.
+ *  Incorporate black frame blocking out offending content on the fly.
+ *  Incorporate opaque frame partially blocking offending content on the fly to only block to the level that renders the content safe to the user.
+ *  Add features to adjust sensitivity of tool.
+ *  Further optimizations and bug fixes.
