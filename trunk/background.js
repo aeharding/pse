@@ -61,13 +61,14 @@ var canvasA;
 var canvasB;
 var imageAData;
 var imageBData;
+var imageTmpData;
 /*imgA.onload = function () {
 	context.drawImage(this, 0, 0, canvas.width, canvas.height);
 }
 imgB.onload = function () {
 	context.drawImage(this, 0, 0, canvas.width, canvas.height);
 }*/
-var FPS = 30;
+var FPS = 10;
 var QUALITY = 50;
 timer = setInterval(function() {
 	chrome.tabs.getSelected(null,function(tab) {
@@ -75,22 +76,35 @@ timer = setInterval(function() {
 			if(isUrl(tablink)) {
 				chrome.tabs.captureVisibleTab(null, {quality: QUALITY},
 				function(img) {
-					imageBData = imageAData;
+					imageTmpData = imageAData;
 					
 					imgA.src = img;
 					canvasA = convertImageToCanvas(imgA);
-					canvasA = resizeCanvas(canvasA,300,300);
-					var context = canvasA.getContext('2d');
-					imageAData = context.getImageData(0, 0, canvasA.width, canvasA.height);
-					
-					var diff = 0;
-					var i;
-					for(i = 0; i < imageAData.data.length; i++) {
-						if(imageAData.data[i] != imageBData.data[i]) {
-							diff++;
-						}
+					try {
+						canvasA = resizeCanvas(canvasA,300,300);
+						var context = canvasA.getContext('2d');
+						imageAData = context.getImageData(0, 0, canvasA.width, canvasA.height);
+						
+						imageBData = imageTmpData;
+					} catch(e) {
+						// Problem generating screenshot. Use old.
+						//console.log("Couldn't keep up.");
 					}
-					console.log(Math.round((diff/imageAData.data.length)*100)+"%");
+					try {
+						var diff = 0;
+						var i;
+						for(i = 0; i < imageAData.data.length; i++) {
+							if(imageAData.data[i] != imageBData.data[i]) {
+								diff++;
+							}
+						}
+						if(Math.round((diff/imageAData.data.length)*100) > 10) {
+							console.log("Warning! Flashing stuff!");
+						}
+					} catch(e) {
+						// Couldn't work... Ignore
+					}
+					
 				});
 			}
 	});
