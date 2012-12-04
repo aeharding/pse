@@ -1,0 +1,30 @@
+{
+  "name": "PSE Safe",
+  "description": "A tool that blocks excessive flashing on the web.",
+  "version": "0.0.0.0",
+  "manifest_version": 2,
+  "icons": { 
+    "16":"icon_016.png", 
+    "48":"icon_048.png", 
+    "128":"icon_128.png" 
+  }, 
+  "permissions": ["contextMenus", "tabs", "http://*/", "https://*/"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "options_page": "options.html",
+  "browser_action": {
+    "default_icon": {                    // optional
+      "19": "icon_019.png",           // optional
+      "38": "icon_038.png"            // optional
+    },
+		"matches" : [
+        "*://*/*"
+      ],
+    "default_title": "PSE Blocker",      // optional; shown in tooltip
+    "default_popup": "popup.html"        // optional
+  },
+  "web_accessible_resources": [
+    "trace_logo.jpg"
+  ]
+}
